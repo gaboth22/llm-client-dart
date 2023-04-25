@@ -50,6 +50,18 @@ class LlmClientMessage {
   /// Takes in a role and a content
   const LlmClientMessage({required this.role, required this.content});
 
+  /// Constructor
+  ///
+  /// Build a message with User role
+  const LlmClientMessage.fromUser({required this.content})
+      : role = LlmClientMessageRole.user;
+
+  /// Constructor
+  ///
+  /// Build a message with User role
+  const LlmClientMessage.fromSystem({required this.content})
+      : role = LlmClientMessageRole.system;
+
   /// Defines the role of the message, whether it was sent by a user,
   /// system message or the llm/assistant
   final LlmClientMessageRole role;
