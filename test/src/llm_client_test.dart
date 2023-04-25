@@ -20,8 +20,14 @@ void main() {
         expect(apiKey, isNotEmpty);
         final client = OpenAiLlmClient(apiKey);
 
-        final response = client.getCompletion('Hello there! How are you?')
-          ..then((value) => expect(value, isNotEmpty));
+        final response = client.getCompletion(
+          messages: [
+            LlmClientMessage(
+              role: LlmClientMessageRole.user,
+              content: 'Hello there! How are you?',
+            )
+          ],
+        )..then((value) => expect(value, isNotEmpty));
 
         expect(response, completes);
       },
@@ -32,7 +38,14 @@ void main() {
       final client = OpenAiLlmClient('BAD_API_KEY');
 
       try {
-        await client.getCompletion('Hello there! How are you?');
+        await client.getCompletion(
+          messages: [
+            LlmClientMessage(
+              role: LlmClientMessageRole.user,
+              content: 'Hello there! How are you?',
+            )
+          ],
+        );
       } catch (e) {
         expect(e.toString(), isNotEmpty);
       }
