@@ -30,7 +30,9 @@ class OpenAiLlmClient implements LlmClient {
   double temperature;
 
   @override
-  Future<String> getCompletion(String content) async {
+  Future<String> getCompletion({
+    required List<LlmClientMessage> messages,
+  }) async {
     final url = Uri.https('api.openai.com', 'v1/chat/completions');
     final auth = 'Bearer $apiKey';
     final responseFuture = http.post(
@@ -39,12 +41,7 @@ class OpenAiLlmClient implements LlmClient {
       body: jsonEncode(
         {
           'model': model,
-          'messages': [
-            {
-              'role': 'user',
-              'content': content,
-            }
-          ],
+          'messages': messages.map((e) => e.toJson()).toList(),
           'temperature': temperature
         },
       ),
